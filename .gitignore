@@ -7,6 +7,7 @@
 Debug/
 UGOPEN/
 UGII/
+refrence/
 # 忽略 Release 目录
 Release/
 
@@ -17,6 +18,7 @@ dist/
 
 # 忽略 IDE 产生的临时文件
 .vs/
+.vscode/
 *.suo
 *.user
 *.ncb
@@ -26,15 +28,10 @@ dist/
 *.ilk
 *.pdb
 
-# 忽略 MinGW 产生的临时文件
-MinGW/*
-
-# 忽略 MSVC 的预编译头文件
-*.pch
 
 # 忽略 MSVC 的用户配置文件
 *.user.*
-*.user
+
 
 # 忽略 MSVC 的 IntelliSense 文件
 *.sbr

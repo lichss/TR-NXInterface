@@ -103,6 +103,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\dummy_paramset.cpp" />
     <ClCompile Include="src\niyeyedelei.cpp" />
     <ClCompile Include="src\nx_util.cpp" />
   </ItemGroup>

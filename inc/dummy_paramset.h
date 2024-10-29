@@ -3,11 +3,31 @@
 
 #include "headers.h"
 
+#include <QFile>
+#include <QDebug>
+#include <QDir>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QtWidgets/QApplication>
+
+
+#define PARAM_VALUE 1
+#define PARAM_NAME 0
+
+
+//这个类没有任何实际作用
+//只是为了进行测试 
+
 class ParamSet {
 public:
-	QString GetModelName() const;
-private:
-	QString ModelName = "aaa";
+	QString m_modelName;
+	int m_input_param_size = 0;
+
+	QString GetModelName() const { return m_modelName; }
+	QString GetInputParam(size_t index, size_t paramIndex) const;
+
+	size_t GetInputParamSize() const { return m_input_param_size; };
+
 };
 
 #endif

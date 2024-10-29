@@ -14,7 +14,7 @@
 #include <NXOpen/Session.hxx>
 #include <NXOpen/Update.hxx>
 
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QFile>
 #include <QDebug>
 #include <QDir>
