@@ -1,0 +1,44 @@
+# 忽略所有 .exe, .lib 和 .dll 文件
+*.exe
+*.lib
+*.dll
+*.swp
+# 忽略 Debug 目录
+Debug/
+UGOPEN/
+UGII/
+# 忽略 Release 目录
+Release/
+
+# 忽略其他常见的编译产物目录
+bin/
+obj/
+dist/
+
+# 忽略 IDE 产生的临时文件
+.vs/
+*.suo
+*.user
+*.ncb
+*.sdf
+
+# 忽略 Visual Studio 编译的中间文件
+*.ilk
+*.pdb
+
+# 忽略 MinGW 产生的临时文件
+MinGW/*
+
+# 忽略 MSVC 的预编译头文件
+*.pch
+
+# 忽略 MSVC 的用户配置文件
+*.user.*
+*.user
+
+# 忽略 MSVC 的 IntelliSense 文件
+*.sbr
+
+# 忽略生成的资源文件
+*.res
+
