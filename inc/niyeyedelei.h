@@ -3,21 +3,34 @@
 
 
 
-#include <iostream>
 #include <uf_defs.h>
 #include <NXOpen/NXException.hxx>
 #include <NXOpen/Session.hxx>
 #include <NXOpen/BasePart.hxx>
-#include <NXOpen/Builder.hxx>
 #include <NXOpen/Expression.hxx>
 #include <NXOpen/ExpressionCollection.hxx>
+#include <NXOpen/NXObject.hxx>
 #include <NXOpen/Part.hxx>
 #include <NXOpen/PartCollection.hxx>
 #include <NXOpen/PartLoadStatus.hxx>
 #include <NXOpen/PartSaveStatus.hxx>
-#include <NXOpen/Session.hxx>
+#include <NXOpen/Preferences_SessionModeling.hxx>
+#include <NXOpen/Preferences_SessionPreferences.hxx>
+#include <NXOpen/Unit.hxx>
+#include <NXOpen/UnitCollection.hxx>
 #include <NXOpen/Update.hxx>
+#include <NXOpen/NXString.hxx>
+#include <iostream>
+//#include <QApplication>
+#include <QtWidgets/QApplication>
+#include <QFile>
+#include <QDebug>
+#include <QDir>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
+//#include "../618/core/hy_context.h"
+#include "dummy_paramset.h"
 
 #define NX_EXPORT_D _declspec(dllexport)
 
@@ -29,6 +42,7 @@ public:
 
 	void Open_wr();
 	int nx_test();
+	int UgRun(const ParamSet& param_set, int times, QString save_file_name, QString& error_message);
 private:
 
 };

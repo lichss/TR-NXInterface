@@ -24,9 +24,9 @@ QString ParamSet::GetInputParam(size_t index, size_t paramIndex) const
 	{
 		//case 0: return m_inputParams[index].m_displayName;
 	//case 0: return m_inputParams[index].m_name;
-	case 0: return QString{ "replace with m_name" };
+	case 0: return QString{ "p62'10" };
 	//case 1: return m_inputParams[index].m_value;
-	case 1: return QString{ "replace with  m_value" };
+	case 1: return QString{ "-0.5" };
 
 	//case 2: return m_inputParams[index].m_unit;
 	case 2: return QString{ "replace with  m_unit" };
@@ -40,3 +40,5 @@ QString ParamSet::GetInputParam(size_t index, size_t paramIndex) const
 
 
 }
+
+// "p62'10";

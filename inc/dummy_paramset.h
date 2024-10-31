@@ -21,13 +21,13 @@
 class ParamSet {
 public:
 	QString m_modelName;
-	int m_input_param_size = 0;
+	int m_input_param_size = 1;
 
 	QString GetModelName() const { return m_modelName; }
 	QString GetInputParam(size_t index, size_t paramIndex) const;
 
 	size_t GetInputParamSize() const { return m_input_param_size; };
-
+	size_t InputParamsCount() const { return 1; }
 };
 
 #endif

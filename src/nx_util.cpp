@@ -160,8 +160,10 @@ int UgRun(const ParamSet& param_set,int times,QString save_file_name,QString &er
 			std::string value = param_value.toUtf8().constData();
 			NXOpen::Expression* expression = work_part->Expressions()->FindObject(name.c_str());
 
-			qInfo() << expression->Equation().GetLocaleText() << " " << expression->Type().GetLocaleText() 
-				<< " " << expression->Units()->Name().getLocaleText();
+			qInfo() << expression->Equation().GetLocaleText() << 
+				" " << expression->Type().GetLocaleText() 
+				<< " " 
+				<< expression->Units()->Name().getLocaleText();
 		}
 // 		for (auto p = work_part->Expressions()->begin(); p != work_part->Expressions()->end(); p++)
 // 		{ 			

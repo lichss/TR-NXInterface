@@ -35,7 +35,7 @@ dist/
 
 # 忽略 MSVC 的 IntelliSense 文件
 *.sbr
-
+*.prt
 # 忽略生成的资源文件
 *.res
 
