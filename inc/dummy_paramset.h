@@ -23,6 +23,10 @@ public:
 	QString m_modelName;
 	int m_input_param_size = 1;
 
+
+	int read_json(QString jsonPath);
+	void SetInputParam(size_t index, size_t param_index, QString value);
+
 	QString GetModelName() const { return m_modelName; }
 	QString GetInputParam(size_t index, size_t paramIndex) const;
 

@@ -40,5 +40,29 @@ QString ParamSet::GetInputParam(size_t index, size_t paramIndex) const
 
 
 }
-
 // "p62'10";
+
+void ParamSet::SetInputParam(size_t index, size_t param_index, QString value)
+{
+	////TODO 中间数据为空如何处理 有效性检查 添加确定按钮？
+	//if (index >= m_inputParams.size())
+	//{
+	//	for (int i = m_inputParams.size(); i <= index; i++)
+	//	{
+	//		m_inputParams.append(Param());
+	//	}
+	//}
+	//switch (param_index)
+	//{
+	//	//case 0: m_inputParams[index].m_displayName = value; break;
+	//case 0: m_inputParams[index].m_name = value; break;
+	//case 1: m_inputParams[index].m_value = value; break;
+	//case 2: m_inputParams[index].m_unit = value; break;
+	//case 3: m_inputParams[index].m_type = value; break;
+	//default: break;
+	//}
+
+	return;
+
+
+}

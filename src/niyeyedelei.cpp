@@ -3,41 +3,6 @@
 
 
 
-void NXinterface::Open_wr() {
-    using namespace NXOpen;
-
-
-
-    Session* theSession = Session::GetSession();
-    // ----------------------------------------------
-    //   Menu: File->Open...
-    // ----------------------------------------------
-    BasePart* basePart1;
-    PartLoadStatus* partLoadStatus1;
-    basePart1 = theSession->Parts()->OpenBaseDisplay("D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt", &partLoadStatus1);
-
-    Part* workPart(theSession->Parts()->Work());
-    Part* displayPart(theSession->Parts()->Display());
-    delete partLoadStatus1;
-
-
-    Expression* expression1(dynamic_cast<Expression*>(workPart->Expressions()->FindObject("p2'10")));
-    Unit* nUnit(NULL);
-    workPart->Expressions()->EditWithUnits(expression1, nUnit, "3.933");
-
-    // ----------------------------------------------
-    //   Menu: File->Save
-    // ----------------------------------------------
-    PartSaveStatus* partSaveStatus1;
-    partSaveStatus1 = workPart->Save(BasePart::SaveComponentsTrue, BasePart::CloseAfterSaveFalse);
-
-    delete partSaveStatus1;
-    // ----------------------------------------------
-    //   Menu: Tools->Journal->Stop Recording
-    // ----------------------------------------------
-
-}
-
 int NXinterface::nx_test() {
 
     const char   dst_ptrfile[] = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
@@ -231,5 +196,150 @@ int NXinterface::UgRun(const ParamSet& param_set, int times, QString save_file_n
 	return 0;
 
 }
+
+//获取全部表达式，不加过滤
+QStringList NXinterface::GetExpression(QString file_name) {
+	QStringList Expression_list;
+	try {
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+
+		NXOpen::PartLoadStatus* status{ nullptr };
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(file_name.toLocal8Bit().constData(), &status);//打开部件
+		NXOpen::Part* work_part = parts->Work();
+
+		delete status;
+		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
+		for (auto it = expressionCollection->begin(); it != expressionCollection->end(); it++) {
+			NXOpen::Expression* expression = dynamic_cast<NXOpen::Expression*>(*it);
+			QString tmp = expression->Name().GetLocaleText();
+			Expression_list.append(tmp);
+
+		}
+
+	}
+	catch(NXOpen::NXException& e){ 
+		qWarning() << e.what();
+		return Expression_list;
+	}
+
+
+	return Expression_list;
+}
+
+int NXinterface::GetUgUnitType(const ParamSet& param_set, QString& error_message)
+{
+	try
+	{
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+		// 导入模型
+		NXOpen::PartLoadStatus* status{ nullptr };
+		auto file_name = param_set.GetModelName();
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(file_name.toLocal8Bit().constData(), &status);//打开部件
+
+		qInfo() << file_name;
+
+		NXOpen::Part* work_part = parts->Work();
+		delete status;
+		//获取参数  
+		int parmsize = (int)param_set.GetInputParamSize();
+		//更新参数
+		QString error_msg;
+		bool is_success = true;
+		int all_param_size = param_set.InputParamsCount();
+		//int param_size = (int)param_set.GetInputParamSize();
+		//int param_index = times * param_size;
+
+
+		for (size_t i = 0; i < all_param_size; ++i)
+		{
+			QString param_name = param_set.GetInputParam(i, PARAM_NAME);
+			QString param_value = param_set.GetInputParam(i, PARAM_VALUE);
+			std::string name = param_name.toUtf8().constData();
+			std::string value = param_value.toUtf8().constData();
+			//回填参数
+			try {
+				NXOpen::Expression* expression = work_part->Expressions()->FindObject(name.c_str());  //异常处理，如果存在不在模型参数集的参数
+				const_cast<ParamSet&> (param_set).SetInputParam(i, 2, QString(expression->Units()->Name().getLocaleText()));
+				const_cast<ParamSet&>(param_set).SetInputParam(i, 3, QString(expression->Type().GetLocaleText()));
+			}
+			catch (NXOpen::NXException& e) {
+				qDebug() << param_name << e.what();
+				if (QString(name.c_str()) == "nan") {
+					continue;
+				}
+				if (error_msg.contains(QString(name.c_str()))) {
+					continue;
+				}
+				error_msg += QString(u8"参数设置错误,参数名：") + QString(name.c_str());
+				is_success = false;
+			}
+		}
+
+		if (!is_success)
+		{
+			qInfo() << error_msg;
+			error_message = error_msg;
+			return -1;
+		}
+	}
+	catch (NXOpen::NXException& e)
+	{
+		qWarning() << e.what();
+		return -1;
+	}
+	return 0;
+}
+
+QStringList NXinterface::SelectUgParams(const QString& file_name)
+{
+	QStringList param_list;
+	try
+	{
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+		// 导入模型
+		NXOpen::PartLoadStatus* status{ nullptr };
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(file_name.toLocal8Bit().constData(), &status);//打开部件
+
+		NXOpen::Part* work_part = parts->Work();
+		//关闭
+		delete status;
+
+		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
+
+		for (auto it = expressionCollection->begin(); it != expressionCollection->end(); ++it)
+		{
+			NXOpen::Expression* expression = dynamic_cast<NXOpen::Expression*>(*it);
+			QString tmp = expression->Name().GetLocaleText();
+			//过滤p开头+后第一位跟数字
+			QRegularExpression regex("^p\\d");
+			QRegularExpressionMatch filter = regex.match(tmp);
+			//qInfo() << tmp;
+			if (filter.hasMatch()) {
+				//param_list.append(tmp);
+				continue;
+			}
+			else {
+				param_list.append(tmp);
+			}
+		}
+	}
+	catch (NXOpen::NXException& e)
+	{
+
+		qWarning() << e.what();
+		return param_list;
+	}
+	return param_list;
+}
+
 
 

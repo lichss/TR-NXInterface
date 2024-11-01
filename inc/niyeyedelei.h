@@ -40,9 +40,20 @@ class NX_EXPORT_D NXinterface
 {
 public:
 
-	void Open_wr();
+	int read_json(QString jsonPath);
+
+
 	int nx_test();
 	int UgRun(const ParamSet& param_set, int times, QString save_file_name, QString& error_message);
+	
+
+	QStringList GetExpression(QString file_name); /*获取 全部表达式 不加过滤*/
+	
+	int GetUgUnitType(const ParamSet& param_set, QString& error_message);
+	
+	QStringList SelectUgParams(const QString& file_name);
+
+
 private:
 
 };
