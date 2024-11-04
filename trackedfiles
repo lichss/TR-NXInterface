@@ -1,0 +1,12 @@
+.gitignore
+NX_interface0.sln
+NX_interface0.vcxproj
+NX_interface0.vcxproj.filters
+headers.h
+inc/dummy_paramset.h
+inc/niyeyedelei.h
+inc/nx_util.h
+main.cpp
+src/dummy_paramset.cpp
+src/niyeyedelei.cpp
+src/nx_util.cpp

@@ -15,6 +15,9 @@ Release/
 bin/
 obj/
 dist/
+script/
+inc/NXInterface.h
+src/NXInterface.cpp
 
 # 忽略 IDE 产生的临时文件
 .vs/
@@ -27,7 +30,7 @@ dist/
 # 忽略 Visual Studio 编译的中间文件
 *.ilk
 *.pdb
-
+*.ui
 
 # 忽略 MSVC 的用户配置文件
 *.user.*

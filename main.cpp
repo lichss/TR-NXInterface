@@ -16,7 +16,15 @@
 
 #include "dummy_paramset.h"
 
+/*
+TODO
 
+SelectUgParams 过滤现在是固定的 把他参数化一下，引出来
+做个图形化界面
+把加载模型的参数都显出来
+
+
+*/
 
 int read_json(QString jsonPath) {
 
@@ -54,18 +62,23 @@ int read_json(QString jsonPath) {
 
 int main(int argc, char* argv[])
 {
-	
-	if (argc < 2) {
-		qInfo() << "No extra arguments.\m";
-		return -1;
-	}
+		
+
 	std::cout << "run begin\n";
 
-	NXinterface nx;
 
-	read_json(QString::fromLatin1(argv[1]) );
+	NXinterface nx;
+	QString ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
+
+	QStringList qls = nx.SelectUgParams(ptrPath,"^p\\d");
+	for (auto item : qls)
+		std::cout << item.toStdString() <<"\n";
+	printf("%d parameter in all.\n",qls.size());
 
 	
+	//nx.UgRun()
+
+
 
 	std::cout << "run over\n";
 	return 0;

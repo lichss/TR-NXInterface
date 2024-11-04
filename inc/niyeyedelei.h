@@ -40,7 +40,6 @@ class NX_EXPORT_D NXinterface
 {
 public:
 
-	int read_json(QString jsonPath);
 
 
 	int nx_test();
@@ -50,8 +49,12 @@ public:
 	QStringList GetExpression(QString file_name); /*获取 全部表达式 不加过滤*/
 	
 	int GetUgUnitType(const ParamSet& param_set, QString& error_message);
-	
+
 	QStringList SelectUgParams(const QString& file_name);
+
+	QStringList SelectUgParams(const QString& file_name, const QString& filter_RegularExpression);
+	
+	
 
 
 private:

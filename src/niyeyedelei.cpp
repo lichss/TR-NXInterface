@@ -342,4 +342,51 @@ QStringList NXinterface::SelectUgParams(const QString& file_name)
 }
 
 
+QStringList NXinterface::SelectUgParams(const QString& file_name, const QString& filter_RegularExpression)
+{
+	QStringList param_list;
+	try
+	{
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+		// 导入模型
+		NXOpen::PartLoadStatus* status{ nullptr };
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(file_name.toLocal8Bit().constData(), &status);//打开部件
+
+		NXOpen::Part* work_part = parts->Work();
+		//关闭
+		delete status;
+
+		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
+
+		for (auto it = expressionCollection->begin(); it != expressionCollection->end(); ++it)
+		{
+			NXOpen::Expression* expression = dynamic_cast<NXOpen::Expression*>(*it);
+			QString tmp = expression->Name().GetLocaleText();
+			//过滤p开头+后第一位跟数字
+			//QRegularExpression regex("^p\\d");
+			QRegularExpression regex(filter_RegularExpression);
+
+			QRegularExpressionMatch filter = regex.match(tmp);
+			//qInfo() << tmp;
+			if (filter.hasMatch()) {
+				//param_list.append(tmp);
+				continue;
+			}
+			else {
+				param_list.append(tmp);
+			}
+		}
+	}
+	catch (NXOpen::NXException& e)
+	{
+
+		qWarning() << e.what();
+		return param_list;
+	}
+	return param_list;
+}
+
 
