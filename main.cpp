@@ -63,22 +63,24 @@ int read_json(QString jsonPath) {
 int main(int argc, char* argv[])
 {
 		
-
 	std::cout << "run begin\n";
 
-
 	NXinterface nx;
-	QString ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
+	QString ptrPath;
+	if (0)
+		 ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
+	else
+		 ptrPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
 
-	QStringList qls = nx.SelectUgParams(ptrPath,"^p\\d");
+	//C_moog_qianzhiji.prt
+	//QStringList qls = nx.SelectUgParams(ptrPath,"^p\\d");
+	QStringList qls = nx.GetExpression(ptrPath);
+
 	for (auto item : qls)
 		std::cout << item.toStdString() <<"\n";
 	printf("%d parameter in all.\n",qls.size());
-
 	
 	//nx.UgRun()
-
-
 
 	std::cout << "run over\n";
 	return 0;

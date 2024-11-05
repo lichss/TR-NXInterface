@@ -3,6 +3,8 @@
 *.lib
 *.dll
 *.swp
+script
+
 # 忽略 Debug 目录
 Debug/
 UGOPEN/
@@ -15,7 +17,6 @@ Release/
 bin/
 obj/
 dist/
-script/
 inc/NXInterface.h
 src/NXInterface.cpp
 
