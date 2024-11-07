@@ -53,6 +53,15 @@ public:
 	QStringList SelectUgParams(const QString& file_name);
 
 	QStringList SelectUgParams(const QString& file_name, const QString& filter_RegularExpression);
+
+	int wirte_single(const QString& file_name, const QString& obejecName, const QString& rightHandSide);
+
+	int writeExpressions(const QString ptrFilePath, const QStringList& expressionList, const QString saveFilePath);
+
+	//int writeExpressions(const QString ptrPath, const QStringList& expressionList);
+
+
+
 	
 	
 

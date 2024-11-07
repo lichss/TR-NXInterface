@@ -67,19 +67,38 @@ int main(int argc, char* argv[])
 
 	NXinterface nx;
 	QString ptrPath;
+	
+	QString name = "p219";
 	if (0)
 		 ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
 	else
-		 ptrPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
+		 ptrPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji_cp.prt";
 
 	//C_moog_qianzhiji.prt
 	//QStringList qls = nx.SelectUgParams(ptrPath,"^p\\d");
-	QStringList qls = nx.GetExpression(ptrPath);
+	if(0){
+		QStringList qls = nx.GetExpression(ptrPath);
+		for (auto item : qls)
+			std::cout << item.toStdString() << "\n";
+		printf("%d parameter in all.\n", qls.size());
+	}
+	if (1) {
+		QStringList qls;
+		QStringList qls2;
+		QString savef = "D:/env_tr/u/trptr/sss";
+		qls.append("p220\t0.2");
+		qls.append("p243\th1");
+		qls.append("p246\tk1");
+		qls.append("p265\t0.5");
 
-	for (auto item : qls)
-		std::cout << item.toStdString() <<"\n";
-	printf("%d parameter in all.\n",qls.size());
+		nx.writeExpressions(ptrPath,qls, savef);
+
+
+	}
 	
+
+	//nx.wirte_single(ptrPath, name,righthands);
+
 	//nx.UgRun()
 
 	std::cout << "run over\n";
