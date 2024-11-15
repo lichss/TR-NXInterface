@@ -28,6 +28,8 @@
 #include <QDir>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <Qprocess>
+#include <QString>
 
 //#include "../618/core/hy_context.h"
 #include "dummy_paramset.h"

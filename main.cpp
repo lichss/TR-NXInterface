@@ -26,6 +26,7 @@ SelectUgParams 过滤现在是固定的 把他参数化一下，引出来
 
 */
 
+int runUGwin(QString UgPathName, QString ptrPathName);
 int read_json(QString jsonPath) {
 
 	
@@ -65,7 +66,7 @@ int main(int argc, char* argv[])
 		
 	std::cout << "run begin\n";
 
-	NXinterface nx;
+	 NXinterface nx;
 	QString ptrPath;
 	
 	QString name = "p219";
@@ -82,10 +83,10 @@ int main(int argc, char* argv[])
 			std::cout << item.toStdString() << "\n";
 		printf("%d parameter in all.\n", qls.size());
 	}
-	if (1) {
+	if (0) {
 		QStringList qls;
 		QStringList qls2;
-		QString savef = "D:/env_tr/u/trptr/sss";
+		QString savef = "D:/env_tr/u/trptr/sss.prt";
 		qls.append("p220\t0.2");
 		qls.append("p243\th1");
 		qls.append("p246\tk1");
@@ -93,7 +94,10 @@ int main(int argc, char* argv[])
 
 		nx.writeExpressions(ptrPath,qls, savef);
 
-
+	}
+	if (1) {
+		std::cout<<"\nreturn value:"<<	runUGwin("D:/_3_workspace/NX_interface0/UGII/ugs_router.exe","D:/env_tr/u/trptr/sss.prt") << "\n";
+	
 	}
 	
 

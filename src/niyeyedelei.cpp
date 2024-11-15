@@ -451,10 +451,9 @@ int NXinterface::wirte_single(const QString& file_name, const QString& obejecNam
 	return 0;
 }
 
-int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& expressionList,const QString saveFilePath) {
-	
+int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& expressionList, const QString saveFilePath) {
 
-	{
+	try {
 		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
 		auto* parts = session->Parts();
 		NXOpen::PartCloseResponses* response{ nullptr };
@@ -464,12 +463,12 @@ int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& 
 		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(ptrFilePath.toLocal8Bit().constData(), &status);//打开部件
 
 		NXOpen::Part* work_part = parts->Work();
-		
+
 		delete status;//关闭
 
 		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
 
-		for (auto item:expressionList) {
+		for (auto item : expressionList) {
 			try {
 				QStringList namevalue = item.split('\t');
 				NXOpen::Expression* expression = work_part->Expressions()->FindObject(namevalue[0].toStdString().c_str());
@@ -483,6 +482,9 @@ int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& 
 			}
 
 		}
+
+		/* 直接修改  */
+		/*
 		NXOpen::PartSaveStatus* save_status;
 		save_status = work_part->Save(NXOpen::BasePart::SaveComponentsTrue, NXOpen::BasePart::CloseAfterSaveFalse);
 		if (int unsaved = save_status->NumberUnsavedParts()) {
@@ -492,21 +494,66 @@ int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& 
 			qInfo() << "All parts saved successfully.";
 		}
 		delete save_status;
+		*/
 
-		QString savef ;
+
+		/* 另存为 */
+		QString savef = saveFilePath;
 		savef = QDir::toNativeSeparators(saveFilePath);
-		QFile temp_ug_file(savef);
+		QString tmp = savef.endsWith(".prt") ? savef : savef + ".prt";
 
+		QFile temp_ug_file(tmp);
 		if (temp_ug_file.exists()) {
 			temp_ug_file.remove();
 		}
-		std::string tmp = savef.toStdString();
-		//savef = QDir::toNativeSeparators(savef);
+		if (savef.endsWith(".prt"))
+			savef.chop(4);
+		//qInfo() << "save as" << savef;
 		work_part->SaveAs(savef.toStdString());
-
 		//work_part->SaveAs("D:\\env_tr\\u\\trptr\\C_moog_qianzhiji_cpaa.prt");
 		qInfo() << "prt file saved successfully.";
 
 	}
+	catch (NXOpen::NXException& e)
+	{
+
+		qWarning() << e.what();
+
+		return -1;
+	}
 	return 0;
+}
+
+int runUGwin(QString UgPathName,QString ptrPathName) {
+
+	QProcess process;
+	QString programPathName = "D:\\_3_workspace\\NX_interface0\\UGII\\ugs_router.exe";
+	
+	QStringList argus;
+	argus << "-ug"  << "-use_file_dir" << " D:\\env_tr\\u\\trptr\\sss.prt";
+	//argus << "-ug"  << "-use_file_dir" << ptrPathName;
+	// 
+	// D:\_3_workspace\dd\deliver\exe
+	
+	process.start(programPathName ,argus);
+
+
+	// 等待程序启动
+    if (!process.waitForStarted()) {
+		std::cout << "Failed to start the process.";
+
+        return -1;
+    }
+
+    // 如果需要等待程序结束，可以使用 waitForFinished()
+    if (!process.waitForFinished()) {
+        std::cout << "Process failed to finish.";
+        return -1;
+    }
+
+
+
+
+
+	return 1;
 }
