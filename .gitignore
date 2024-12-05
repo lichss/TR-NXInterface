@@ -1,0 +1,45 @@
+# 忽略所有 .exe, .lib 和 .dll 文件
+*.exe
+*.lib
+*.dll
+*.swp
+script
+
+# 忽略 Debug 目录
+Debug/
+UGOPEN/
+UGII/
+refrence/
+# 忽略 Release 目录
+Release/
+
+# 忽略其他常见的编译产物目录
+bin/
+obj/
+dist/
+inc/NXInterface.h
+src/NXInterface.cpp
+
+# 忽略 IDE 产生的临时文件
+.vs/
+.vscode/
+*.suo
+*.user
+*.ncb
+*.sdf
+
+# 忽略 Visual Studio 编译的中间文件
+*.ilk
+*.pdb
+*.ui
+
+# 忽略 MSVC 的用户配置文件
+*.user.*
+
+
+# 忽略 MSVC 的 IntelliSense 文件
+*.sbr
+*.prt
+# 忽略生成的资源文件
+*.res
+
